@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/bootstrap}">
+<head>
+    <meta charset="UTF-8">
+    <title>垃圾分类查询 - 添加</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="jumbotron">
+        <div class="container">
+            <div class="row row-cols-1">
+                <div class="col text-center">
+                    <h1>添加分类信息</h1>
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="alert alert-danger alert-dismissible" role="alert" th:if="${result}==failed">
+            表单有错误，请检查表单
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="alert alert-success alert-dismissible" role="alert" th:if="${result}==success">
+            添加成功，点击 <a href="/" class="alert-link align-content-end">返回</a> 回到主页
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="container text-center">
+        <form th:action="@{/add}" th:object="${garbageForm}" method="post">
+            <table class="table table-striped table-hovers" id="tab_logic">
+                <thead>
+                <tr>
+                    <th>
+                        名称
+                    </th>
+                    <th>
+                        类别
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="row,rowStat : *{garbages}">
+                    <td data-name="name">
+                        <input type="text" th:field="*{garbages[__${rowStat.
+index}__].name}" class="form-control"/>
+                    </td>
+                    <td data-name="sel">
+                        <select th:field="*{garbages[__${rowStat.
+index}__].categoryid}" class="form-control" name="sel0">
+                            <option value="0"></option>
+                            <option value="1">可回收垃圾</option>
+                            <option value="2">有害垃圾</option>
+                            <option value="4">湿垃圾</option>
+                            <option value="8">干垃圾</option>
+                            <option value="16">大件垃圾</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button type="submit" name="remove" th:value="${rowStat.index}"
+                                class="btn btn-danger float-right">移除
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <button type="submit" name="add" class="btn btn-success float-right">添加</button>
+            <br>
+            <br>
+            <button type="submit" name="submit" class="btn btn-primary text-center">提交</button>
+        </form>
+    </div>
+
+    <br>
+    <hr>
+
+    <div class="container">
+        <div class="alert alert-secondary" role="alert">
+            上海市生活垃圾分类标准
+        </div>
+    </div>
+    <div class="container">
+        <div id="demo" class="carousel slide" data-ride="carousel" data->
+
+            <!-- The slideshow -->
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="card bg-light">
+                        <div class="container">
+                            <img class="card-img-top w-auto h-auto" th:src="@{/images/t5.svg}">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">可回收物是指：</h5>
+                            <p class="card-text">废纸、废塑料、废玻璃制品、废金属、废织物等适宜回收，并且可以回收重复利用的生活废弃物。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="card bg-light">
+                        <div class="container">
+                            <img class="card-img-top w-auto h-auto" th:src="@{/images/t4.svg}">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">有害垃圾是指：</h5>
+                            <p class="card-text">废电池、费灯泡灯管、废药品、废油漆，以及有损人身体健康或者对环境直接或者间接会造成污染，有潜在危害的生活用品。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="card bg-light">
+                        <div class="container">
+                            <img class="card-img-top w-auto h-auto" th:src="@{/images/t3.svg}">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">湿垃圾是指：</h5>
+                            <p class="card-text">
+                                易腐垃圾，如食材废弃料、剩饭剩菜、过期食品、水果皮、干果垃圾，废弃植物、中药残渣等生活废弃物品。如：剩菜剩饭、瓜皮果核、花卉绿植、过期食品等。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="card bg-light">
+                        <div class="container">
+                            <img class="card-img-top w-auto h-auto" th:src="@{/images/t2.svg}">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">干垃圾是指：</h5>
+                            <p class="card-text">就是生活中的其它垃圾，并且不属于“湿垃圾”、“有害垃圾”、“可回收垃圾”的垃圾分类，也叫其它垃圾。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Left and right controls -->
+            <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" href="#demo" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </a>
+
+            <br>
+            <!-- Indicators -->
+            <ul class="carousel-indicators">
+                <li data-target="#demo" data-slide-to="0" class="active"></li>
+                <li data-target="#demo" data-slide-to="1"></li>
+                <li data-target="#demo" data-slide-to="2"></li>
+                <li data-target="#demo" data-slide-to="3"></li>
+            </ul>
+        </div>
+    </div>
+</section>
+</body>

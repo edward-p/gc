@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/bootstrap}">
+<head>
+    <meta charset="UTF-8">
+    <title>垃圾分类查询</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="jumbotron text-center">
+        <h1>垃圾分类查询</h1>
+        <br>
+
+        <!-- Search form -->
+        <form role="form" th:action="@{/query}">
+            <div class="input-group md-form form-sm form-2 pl-0">
+                <input class="form-control my-0 py-1 amber-border" type="text" th:value="${value}" aria-label="Search"
+                       th:name="value">
+                <div class="input-group-append">
+                    <span class="input-group-text amber lighten-3">
+                        <i class="fas fa-search" aria-hidden="true"></i>
+                    </span>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- 查到结果则以表格形式显示 -->
+    <div class="card" th:if="${!garbages.isEmpty()}">
+        <div class="card-body">
+            <div class="alert alert-success" role="alert">
+                查询到 [[${garbages.size()}]] 条结果，点击 <a th:href="@{/}" class="alert-link align-content-end">返回</a> 回到主页
+            </div>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>类别</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="garbage: ${garbages}">
+                    <td th:text="${garbage.name}"></td>
+                    <td th:text="${garbage.category}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 未查到结果则显示“未查到”提示，并显示“添加”按钮 -->
+    <div class="card" th:if="${garbages.isEmpty()}">
+        <div class="card-body">
+            <div class="alert alert-danger" role="alert">
+                未查询到任何记录，点击 <a th:href="@{/add}" class="alert-link">添加</a> 帮助完善数据，点击 <a th:href="@{/}"
+                                                                                  class="alert-link align-content-end">返回</a>
+                回到主页
+            </div>
+
+        </div>
+    </div>
+
+</section>
+</body>
